@@ -1,0 +1,81 @@
+/* Basic styling for the guestbook page */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+h1 {
+    text-align: center;
+    margin: 20px 0;
+}
+
+form {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+fieldset {
+    border: none;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+   
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    
+}
+
+textarea {
+    height: 100px;
+    resize: vertical;
+    border-radius: 3px;
+}
+
+/* Flexbox for form fields in the same row */
+.row {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+
+
+
+/* For the "How did we meet?" and "Other" fields in one row */
+.row select, .row input[name="other"] {
+    width: 48%; 
+    
+}
+
+/* Styling for the submit button */
+button {
+    padding: 10px;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 10%;
+}
+
+button:hover {
+    background-color: #4cae4c;
+}
+
+
