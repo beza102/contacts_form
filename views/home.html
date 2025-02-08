@@ -11,9 +11,9 @@
     <link rel="icon" type="image/png" href="/icon.png">
 </head>
 <body>
-    <h1>Contact Form</h1>
 
     <form action="/submit-form" method="post">
+        <h1>Contact Form</h1>
         <!-- Contact form -->
         <fieldset class="row">
             <label>First Name
@@ -34,6 +34,7 @@
                 <input type="text" name="company">
             </label>
 
+            
             <label>Linkedin URL
                 <input type="url" name="linkedin">
             </label>
@@ -43,43 +44,41 @@
             </label>
         </fieldset>
 
-        <fieldset>
-            <label>Message
-                <textarea name="message"></textarea>
-            </label>
-        </fieldset>
-
         <!-- Meetup or job fair -->
         <fieldset class="row">
-            <legend>How did we meet?</legend>
-            <select name="how_we_met">
-                <option value="none">Please select</option>
-                <option value="meetup">Meet Up</option>
-                <option value="job-fair">Job Fair</option>
-            </select>
+            <label>How did we meet?
+                <select name="how_we_met">
+                    <option value="none">Please select</option>
+                    <option value="meetup">Meet Up</option>
+                    <option value="job-fair">Job Fair</option>
+                </select>
+                </label>
 
             <label>Other (Please specify)
                 <input type="text" name="other">
             </label>
         </fieldset>
 
-        <!-- Mailing List -->
-        <fieldset class="checkbox-row">
-            <label>
-                <input type="checkbox" name="add_me" value="email"> Please add me to your mailing list
+        <fieldset class="row">
+            <label>Message
+                <textarea name="message"></textarea>
             </label>
         </fieldset>
 
-        <!-- Email Format -->
-        <fieldset >
-            <legend>Choose an email format:</legend>
-            <label class="radio">
-                <input type="radio" name="format" value="HTML"> HTML
-            </label>
+        <!-- Mailing List -->
+        <fieldset class="checkbox-row">
+           
+                <input type="checkbox" name="add_me" value="email"> Please add me to your mailing list
+            
+        </fieldset>
 
-            <label class="radio">
+        <!-- Email Format -->
+        <fieldset class="radio-fomat">
+            <legend>Choose an email format:</legend>
+            <div class="radio-options">
+                <input type="radio" name="format" value="HTML"> HTML
                 <input type="radio" name="format" value="text"> Text
-            </label>
+            </div>
         </fieldset>
 
         <!-- Submit button -->
