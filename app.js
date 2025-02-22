@@ -5,38 +5,65 @@ import express from 'express';
 // Instantiate an Express application
 const app = express();
 
+//Middleware to parse form data
+app.use(express.urlencoded({extended:true}));
+
+//set the view engin for our application
+app.set('view engine', 'ejs');
+
 
 // Serve static files from the 'public' directory
 app.use(express.static('public'));
 
-
 // Define the port number where our server will listen
 const PORT = 3000;
-const info = [];
 
-app.use(express.urlencoded({extended:true}));
+// Store form submissions in memory
+const forms = [];
 
 // Create a "default" route for our website's home page
 app.get('/', (req, res) => {
   
-
-
   // Send our home page as a response to the client
-  res.sendFile(`${import.meta.dirname}/views/home.html`);
+  res.render('home');
 });
 
+//Define an admin route
+app.get('/admin', (req, res) =>{
+  res.render('summary', {contacts: forms })
+});
+
+
+// Handle form submission
 app.post('/submit-form', (req, res) => {
-  info.push(req.body);
-  console.log(req.body)
-  res.send(`<h1>Form Submitted Successfully, ${req.body.fname}</h1>
-    <p>Thank you for your submission.</p>
-    <a href="/">Go back to the form</a>
-  `)
-})
-app.get('/admin/orders', (req, res) =>{
-  res.send(info)
-});
+  // Backend validation: Ensure first name, last name, and email are present
+  if (!req.body.fname || !req.body.lname || !req.body.email) {
+      return res.send('Invalid Input'); // Simple validation response
+  }
 
+  // Create a new contact object
+  const contact = {
+      fname: req.body.fname,
+      lname: req.body.lname,
+      title: req.body.title,
+      company: req.body.company,
+      linkedin: req.body.linkedin,
+      email: req.body.email,
+      method: req.body.method,
+      timestamp: new Date().toLocaleString(), // Add timestamp
+  };
+
+
+//Add the form to our array
+forms.push(contact);
+console.log(forms);
+
+
+// Send our thank you page
+res.render('thankyou', { contact });
+
+
+})
 
 // Tell the server to listen on our specified port
 app.listen(PORT, () => {

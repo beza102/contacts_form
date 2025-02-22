@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/styles.css">
+    <title>Guestbook</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/icon.png">
+</head>
+<body>
+
+    <form action="/submit-form" method="post">
+        <h1>Contact Form</h1>
+        <!-- Contact form -->
+        <fieldset class="row">
+            <label>First Name
+                <input type="text" name="fname">
+            </label>
+
+            <label>Last Name
+                <input type="text" name="lname">
+            </label>
+
+            <label>Job Title
+                <input type="text" name="title">
+            </label>
+        </fieldset>
+
+        <fieldset class="row">
+            <label>Company
+                <input type="text" name="company">
+            </label>
+
+            
+            <label>Linkedin URL
+                <input type="url" name="linkedin">
+            </label>
+
+            <label>Email Address
+                <input type="email" name="email">
+            </label>
+        </fieldset>
+
+        <!-- Meetup or job fair -->
+        <fieldset class="row">
+            <label>How did we meet?
+                <select name="how_we_met">
+                    <option value="none">Please select</option>
+                    <option value="meetup">Meet Up</option>
+                    <option value="job-fair">Job Fair</option>
+                </select>
+                </label>
+
+            <label>Other (Please specify)
+                <input type="text" name="other">
+            </label>
+        </fieldset>
+
+        <fieldset class="row">
+            <label>Message
+                <textarea name="message"></textarea>
+            </label>
+        </fieldset>
+
+        <!-- Mailing List -->
+        <fieldset class="checkbox-row">
+           
+                <input type="checkbox" name="add_me" value="email"> Please add me to your mailing list
+            
+        </fieldset>
+
+        <!-- Email Format -->
+        <fieldset class="radio-fomat">
+            <legend>Choose an email format:</legend>
+            <div class="radio-options">
+                <input type="radio" name="format" value="HTML"> HTML
+                <input type="radio" name="format" value="text"> Text
+            </div>
+        </fieldset>
+
+        <!-- Submit button -->
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

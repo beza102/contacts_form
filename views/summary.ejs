@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summery</title>
+</head>
+<body>
+    <h1>Contact Submissions</h1>
+
+    <% for (let i = 0; i < contacts.length; i++) { %>
+        <p><%= contacts[i].fname %> <%= contacts[i].lname %></p>
+        <p><%= contacts[i].email %></p>
+        <p><%= contacts[i].method %></p>
+        <p><%= contacts[i].title %></p>
+        <p><%= contacts[i].company %></p>
+        <p><%= contacts[i].linkedin %></p>
+        <p><%= contacts[i].timestamp %></p>
+    
+        <hr>
+    <% } %>
+
+    <a href="/">Go back to the form</a>
+    
+</body>
+</html>
