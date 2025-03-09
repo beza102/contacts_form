@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Stylesheet -->
     <link rel="stylesheet" href="/styles.css">
+
+    <!--Script-->
+    <script src="script/client-validation.js" defer></script>
     <title>Guestbook</title>
 
     <!-- Favicon -->
@@ -12,72 +15,83 @@
 </head>
 <body>
 
-    <form action="/submit-form" method="post">
+    <form action="/thankyou" method="post" id="contact-form">
         <h1>Contact Form</h1>
         <!-- Contact form -->
         <fieldset class="row">
             <label>First Name
-                <input type="text" name="fname">
+                <input type="text" name="fname" id="fname">
+                <span class="err" id="err-fname">First name is required</span>
             </label>
 
             <label>Last Name
-                <input type="text" name="lname">
+                <input type="text" name="lname" id="lname">
+                <span class="err" id="err-lname">Last name is required</span>
             </label>
 
             <label>Job Title
-                <input type="text" name="title">
+                <input type="text" name="title" id="title">
+                <span class="err" id="err-title">Title is required</span>
             </label>
         </fieldset>
 
         <fieldset class="row">
             <label>Company
-                <input type="text" name="company">
+                <input type="text" name="company" id="company">
+                <span class="err" id="err-company">Company is required</span>
             </label>
 
             
             <label>Linkedin URL
-                <input type="url" name="linkedin">
+                <input type="url" name="linkedin" id="linkedin">
+                <span class="err" id="err-linkedin">URL is required</span>
             </label>
 
             <label>Email Address
-                <input type="email" name="email">
+                <input type="email" name="email" id="email">
+                <span class="err" id="err-email">Email is required</span>
             </label>
         </fieldset>
 
         <!-- Meetup or job fair -->
         <fieldset class="row">
             <label>How did we meet?
-                <select name="how_we_met">
+                <select name="place" id="place">
                     <option value="none">Please select</option>
                     <option value="meetup">Meet Up</option>
                     <option value="job-fair">Job Fair</option>
                 </select>
+                <span class="err" id="err-place">Place is required</span>
                 </label>
 
             <label>Other (Please specify)
-                <input type="text" name="other">
+                <input type="text" name="other" id="other">
+                <span class="err" id="err-other">Please specify if you selected "Other"</span>
             </label>
         </fieldset>
 
         <fieldset class="row">
             <label>Message
-                <textarea name="message"></textarea>
+                <textarea name="message" id="message"></textarea>
+                <span class="err" id="err-message">Enter a message</span>
             </label>
         </fieldset>
 
         <!-- Mailing List -->
         <fieldset class="checkbox-row">
            
-                <input type="checkbox" name="add_me" value="email"> Please add me to your mailing list
+                <input type="checkbox" name="contact" value="email" id="contact"> Please add me to your mailing list
+                <span class="err" id="err-contact">Mailing list required</span>
             
         </fieldset>
 
         <!-- Email Format -->
         <fieldset class="radio-fomat">
             <legend>Choose an email format:</legend>
-            <div class="radio-options">
+            <div class="radio-options" id="format">
                 <input type="radio" name="format" value="HTML"> HTML
                 <input type="radio" name="format" value="text"> Text
+                <span class="err" id="err-format">Email format required</span>
             </div>
         </fieldset>
 

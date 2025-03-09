@@ -1,74 +1,109 @@
-// Import the Express module
+// Import modules
 import express from 'express';
+import { validateForm } from './services/validation.js';
+import mariadb from "mariadb";
+import dotenv from "dotenv";
+dotenv.config();
 
+// Database connection pool
+const pool = mariadb.createPool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT
+});
+
+// Function to get a database connection
+async function connect() {
+  try {
+    const conn = await pool.getConnection();
+    console.log('Connected to the database');
+    return conn;
+  } catch (err) {
+    console.error(`Error connecting to the database: ${err.message}`);
+    return null; // Return null to handle failure gracefully
+  }
+};
 
 // Instantiate an Express application
 const app = express();
 
-//Middleware to parse form data
-app.use(express.urlencoded({extended:true}));
+// Middleware to parse form data
+app.use(express.urlencoded({ extended: true }));
 
-//set the view engin for our application
+// Set the view engine
 app.set('view engine', 'ejs');
 
-
-// Serve static files from the 'public' directory
+// Serve static files from 'public'
 app.use(express.static('public'));
 
-// Define the port number where our server will listen
+// Define the port
 const PORT = 3000;
 
-// Store form submissions in memory
-const forms = [];
-
-// Create a "default" route for our website's home page
+// Home Page Route
 app.get('/', (req, res) => {
-  
-  // Send our home page as a response to the client
   res.render('home');
 });
 
-//Define an admin route
-app.get('/admin', (req, res) =>{
-  res.render('summary', {contacts: forms })
+// Admin Route - Fetch contacts from DB
+app.get('/admin', async (req, res) => {
+  let conn;
+  try {
+    conn = await connect();
+    if (!conn) throw new Error("Database connection unavailable");
+
+    const contacts = await conn.query(`SELECT * FROM contacts;`);
+    res.render('summary', { contacts });
+  } catch (err) {
+    console.error("Error fetching contacts:", err);
+    res.status(500).send("Error retrieving contact data. Please try again later.");
+  } finally {
+    if (conn) conn.release(); // Ensure connection is released
+  }
 });
 
-
-// Handle form submission
-app.post('/submit-form', (req, res) => {
-  // Backend validation: Ensure first name, last name, and email are present
-  if (!req.body.fname || !req.body.lname || !req.body.email) {
-      return res.send('Invalid Input'); // Simple validation response
-  }
-
+// Form Submission Route
+app.post('/thankyou', async (req, res) => {
   // Create a new contact object
   const contact = {
-      fname: req.body.fname,
-      lname: req.body.lname,
-      title: req.body.title,
-      company: req.body.company,
-      linkedin: req.body.linkedin,
-      email: req.body.email,
-      method: req.body.method,
-      timestamp: new Date().toLocaleString(), // Add timestamp
+    fname: req.body.fname,
+    lname: req.body.lname,
+    title: req.body.title,
+    company: req.body.company,
+    linkedin: req.body.linkedin,
+    email: req.body.email,
+    place: req.body.place,
   };
 
+  // Validate the form
+  const result = validateForm(contact);
+  if (!result.isValid) {
+    console.log(result.errors);
+    return res.render('home', { errors: result.errors, contact });
+  }
 
-//Add the form to our array
-forms.push(contact);
-console.log(forms);
+  let conn;
+  try {
+    conn = await connect();
+    if (!conn) throw new Error("Database connection unavailable");
 
+    await conn.query(
+      `INSERT IGNORE INTO contacts (fname, lname, title, company, linkedin, email, place, timestamp) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      [contact.fname, contact.lname, contact.title, contact.company, contact.linkedin, contact.email, contact.place, contact.timestamp]
+    );
 
-// Send our thank you page
-res.render('thankyou', { contact });
-
-
-})
-
-// Tell the server to listen on our specified port
-app.listen(PORT, () => {
-  console.log(`Server is running at     
-  http://localhost:${PORT}`);
+    res.render('thankyou', { contact });
+  } catch (err) {
+    console.error("Error inserting contact:", err);
+    res.status(500).send("Error submitting your contact information. Please try again.");
+  } finally {
+    if (conn) conn.release();
+  }
 });
 
-
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server is running at http://localhost:${PORT}`);
+});

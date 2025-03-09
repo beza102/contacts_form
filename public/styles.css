@@ -125,3 +125,8 @@ button:hover {
     background-color: #45a049;
 }
 
+.err{
+    color: darkred;
+    display: none;
+}
+
